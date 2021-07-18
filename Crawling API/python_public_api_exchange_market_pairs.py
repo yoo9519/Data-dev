@@ -5,6 +5,8 @@ team: Data
 Author: Cline Yoo
 * created: 2021-07-14
 
+This is the file for operating Bash Script.
+
 """
 
 from requests import Request, Session

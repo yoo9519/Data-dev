@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+
+"""
+Created: Cline Yoo
+
+"""
+
 import glob
 import numpy as np
 import telegram

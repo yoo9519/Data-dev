@@ -1,4 +1,4 @@
-## Collect public APIs for virtual asset exchanges and implement Data Orchestration via Airflow.
+## Collect public API for virtual asset exchanges and implement Data Orchestration via Airflow.
 ### Skill Stack
  - Airflow
  - AWS S3 / Redshift

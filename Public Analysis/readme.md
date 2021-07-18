@@ -1,1 +1,1 @@
-# Just Public!. We do not handle data that violates the security of our company.
+# Just Public!. I don't handle data that violates the security of our company.

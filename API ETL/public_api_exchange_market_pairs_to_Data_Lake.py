@@ -38,7 +38,7 @@ task_default_args = {
 }
 
 
-dag_id = 'airflow_public_api_exchange_market_pairs_to_Data_Lake_v0002'  # format: <team_name>_<source>_to_<target>
+dag_id = 'Your Dag Name version'  # format: <team_name>_<source>_to_<target>
 
 
 dag = DAG(

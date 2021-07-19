@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Author: Cline Yoo
+* Author: Cline Yoo
 * created: 2021-07-14
 
 This is the file for operating Bash Script.

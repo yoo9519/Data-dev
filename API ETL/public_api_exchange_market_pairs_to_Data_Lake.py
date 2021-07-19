@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-team: Data
 * author: Cline
 * created: 2021-07-14
 

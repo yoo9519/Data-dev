@@ -6,7 +6,7 @@ team: Data
 * created: 2021-07-14
 
 * updated: 2021-07-20, Cline Yoo
-*version upgrade:
+* Version upgrade 1.1v:
 - Adding GOPAX exchange
 - Change DAG name
 - Modifying Batch Scheduler

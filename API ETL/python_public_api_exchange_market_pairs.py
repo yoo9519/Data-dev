@@ -6,7 +6,13 @@ team: Data
 * created: 2021-07-14
 
 * updated: 2021-07-20, Cline Yoo
-version upgrade: Adding GOPAX exchange and total_optimization
+*version upgrade:
+- Adding GOPAX exchange
+- Change DAG name
+- Modifying Batch Scheduler
+- Crawling in kst time by combining data in hours(Upbit)
+- And so on (Total Optimization)
+
 """
 
 from requests import Request, Session

@@ -12,6 +12,7 @@ team: Data
 - Modifying Batch Scheduler
 - Crawling in kst time by combining data in hours(Upbit)
 - And so on (Total Optimization)
+- Adding column, "close_price"
 
 """
 

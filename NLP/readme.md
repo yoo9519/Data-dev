@@ -1,1 +1,1 @@
-Ajou.univ Reference by Jeonghyun Yoo(~ing)
+Ajou.univ Reference by Jeonghyun Yoo(Cline) ~ ing

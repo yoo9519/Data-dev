@@ -11,6 +11,8 @@ print(tf.__version__)
 import transformers as ts
 print(ts.__version__)
 from datetime import datetime
+import logging
+
 
 # main method - coindesk(cryptocurrency newsdesk)
 # article link to article
@@ -44,8 +46,6 @@ for i in news_article:
 
     processing_news.append(na)
 
-print(processing_news[:5])
-
 
 real_news = []
 
@@ -65,3 +65,33 @@ for i in date_list:
     created_at.append(d)
 
 print(created_at[:5])
+logging.info('***************************************************************************************')
+logging.info('******************************** News article is ready ********************^***********')
+logging.info('************************* Now, Article will be pre-processing *************************')
+
+
+df_news = []
+
+for i in real_news:
+    a = re.compile('[가-힣]+').findall(i)
+    df_news.append(a)
+
+created_at = []
+
+for i in date_list:
+    d = i[0].text.split(' ')[-2]
+    created_at.append(d)
+
+clear_word = []
+
+for i in df_news:
+    c = ' '.join(i)
+    d = re.compile('[제보-보내주세요]').sub(' ',c)
+    d = d.replace('도자료','')
+    clear_word.append(' '+d)
+
+
+df_word = pd.DataFrame(clear_word,columns=['word'])
+df_date = pd.DataFrame(created_at,columns=['created_date'])
+total_df = pd.concat([df_date,df_word],axis=1)
+total_df = total_df.groupby('created_date').sum(str(total_df['word']))

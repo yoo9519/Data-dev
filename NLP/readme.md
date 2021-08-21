@@ -1,1 +1,1 @@
-Ajou.univ Reference by Jeonghyun Yoo(Cline) ~ ing
+NLP Deep Learning

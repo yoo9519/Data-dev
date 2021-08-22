@@ -13,9 +13,12 @@ print(ts.__version__)
 from datetime import datetime
 import logging
 
+import psycopg2 as pg
+import getpass
 
-# main method - coindesk(cryptocurrency newsdesk)
-# article link to article
+### main method - coindesk(cryptocurrency newsdesk) ###
+### article link to article ###
+### Make Crawler and pre-processing ###
 
 date_list = []
 news_article = []
@@ -95,3 +98,38 @@ df_word = pd.DataFrame(clear_word,columns=['word'])
 df_date = pd.DataFrame(created_at,columns=['created_date'])
 total_df = pd.concat([df_date,df_word],axis=1)
 total_df = total_df.groupby('created_date').sum(str(total_df['word']))
+
+
+### Load via DataBase ###
+### CMC -> DB -> Load ###
+db_con = psycopg2.connect(dbname=dbname,
+                          host=host,
+                          port=post,
+                          user=user,
+                          password=password
+                          )
+
+
+query = f"""
+select trade_date, last_price
+from currency_price
+where trade_date >= '2018-04-13'
+and split_part(listed,'_',1) = input('')
+and split_part(listed,'_',2) = 'krw'
+order by trade_date
+"""
+
+
+### Labeling ###
+# price_df = pd.read_clipboard()
+price_df = pd.read_sql(query, db_con)
+price_df = price_df[['trade_date','latest_trade_price']]
+price_df = price_df.set_index('trade_date')
+
+df = pd.concat([price_df,total_df],axis=1)
+df['y_price'] = df['latest_trade_price'].shift(-1)
+df['label'] = df['latest_trade_price'] < df['y_price']
+df['label'] = df['label'].replace(False,0).replace(True,1)
+
+f_df = df[['word','label']]
+# f_df.to_csv('f_df.csv')           # Saved to CSV File

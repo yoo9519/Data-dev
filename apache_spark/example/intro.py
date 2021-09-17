@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession\
         .builder\
-        .appName('Python Spark SQL basic example')\
+        .appName('Python apache_spark SQL basic example')\
         .config('spark.some.config.option', 'some-value')\
         .getOrCreate()
 

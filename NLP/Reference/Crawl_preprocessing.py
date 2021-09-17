@@ -133,3 +133,6 @@ df['label'] = df['label'].replace(False,0).replace(True,1)
 
 f_df = df[['word','label']]
 # f_df.to_csv('f_df.csv')           # Saved to CSV File
+
+
+# 2021.09.18 -- git pust test

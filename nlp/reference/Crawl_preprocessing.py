@@ -23,7 +23,7 @@ import getpass
 date_list = []
 news_article = []
 
-for i in tqdm(range(1, 387)):
+for i in tqdm(range(1, 2)):
     url = 'https://www.coindeskkorea.com/news/articleList.html?page={}&total=6048&box_idxno=&view_type=sm'.format(i)
     resp = requests.get(url)
     soup = BeautifulSoup(resp.content, 'html.parser')
@@ -100,38 +100,41 @@ total_df = pd.concat([df_date,df_word],axis=1)
 total_df = total_df.groupby('created_date').sum(str(total_df['word']))
 
 
+total_df.to_csv('/Users/yoo/Data-dev/nlp/article/total_df.csv')
+
+
 ### Load via DataBase ###
 ### CMC -> DB -> Load ###
-db_con = psycopg2.connect(dbname=dbname,
-                          host=host,
-                          port=post,
-                          user=user,
-                          password=password
-                          )
+# db_con = psycopg2.connect(dbname=dbname,
+#                           host=host,
+#                           port=post,
+#                           user=user,
+#                           password=password
+#                           )
 
 
-query = f"""
-select trade_date, last_price
-from currency_price
-where trade_date >= '2018-04-13'
-and split_part(listed,'_',1) = input('')
-and split_part(listed,'_',2) = 'krw'
-order by trade_date
-"""
+# query = f"""
+# select trade_date, last_price
+# from currency_price
+# where trade_date >= '2018-04-13'
+# and split_part(listed,'_',1) = input('')
+# and split_part(listed,'_',2) = 'krw'
+# order by trade_date
+# """
 
 
 ### Labeling ###
 # price_df = pd.read_clipboard()
-price_df = pd.read_sql(query, db_con)
-price_df = price_df[['trade_date','latest_trade_price']]
-price_df = price_df.set_index('trade_date')
-
-df = pd.concat([price_df,total_df],axis=1)
-df['y_price'] = df['latest_trade_price'].shift(-1)
-df['label'] = df['latest_trade_price'] < df['y_price']
-df['label'] = df['label'].replace(False,0).replace(True,1)
-
-f_df = df[['word','label']]
+# price_df = pd.read_sql(query, db_con)
+# price_df = price_df[['trade_date','latest_trade_price']]
+# price_df = price_df.set_index('trade_date')
+#
+# df = pd.concat([price_df,total_df],axis=1)
+# df['y_price'] = df['latest_trade_price'].shift(-1)
+# df['label'] = df['latest_trade_price'] < df['y_price']
+# df['label'] = df['label'].replace(False,0).replace(True,1)
+#
+# f_df = df[['word','label']]
 # f_df.to_csv('f_df.csv')           # Saved to CSV File
 
 

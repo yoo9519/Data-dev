@@ -3,17 +3,11 @@ import numpy as np
 from bs4 import BeautifulSoup
 import requests
 import re
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 import sys
 print(sys.executable)
-import tensorflow as tf
-print(tf.__version__)
-import transformers as ts
-print(ts.__version__)
 from datetime import datetime
 import logging
-
-import psycopg2 as pg
 import getpass
 
 ### main method - coindesk(cryptocurrency newsdesk) ###
@@ -23,10 +17,10 @@ import getpass
 date_list = []
 news_article = []
 
-for i in tqdm(range(1, 2)):
+for i in tqdm(range(1, 387)):
     url = 'https://www.coindeskkorea.com/news/articleList.html?page={}&total=6048&box_idxno=&view_type=sm'.format(i)
     resp = requests.get(url)
-    soup = BeautifulSoup(resp.content, 'html.parser')
+    soup = BeautifulSoup(resp.content, 'lxml')
 
     for j in range(1, 21):
         date = soup.select(
@@ -41,6 +35,7 @@ for i in tqdm(range(1, 2)):
 
 print("total: {} date".format(len(date_list)))
 print("total: {} article".format(len(news_article)))
+print(news_article[:3])
 
 processing_news = []
 
@@ -99,8 +94,7 @@ df_date = pd.DataFrame(created_at,columns=['created_date'])
 total_df = pd.concat([df_date,df_word],axis=1)
 total_df = total_df.groupby('created_date').sum(str(total_df['word']))
 
-
-total_df.to_csv('/Users/yoo/Data-dev/nlp/article/total_df.csv')
+total_df.to_csv('/Users/yoo/Data-dev/nlp/reference/article/total_df.csv')
 
 
 ### Load via DataBase ###
@@ -111,8 +105,8 @@ total_df.to_csv('/Users/yoo/Data-dev/nlp/article/total_df.csv')
 #                           user=user,
 #                           password=password
 #                           )
-
-
+#
+#
 # query = f"""
 # select trade_date, last_price
 # from currency_price

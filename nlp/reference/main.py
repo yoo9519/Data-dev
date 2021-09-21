@@ -26,7 +26,7 @@ def basic_crawler():
     d = []
     a = []
 
-    for i in tqdm(range(1,5), desc="Extracting Web page.."):
+    for i in tqdm(range(1,3), desc="Extracting Web page.."):
         url = 'https://www.coindeskkorea.com/news/articleList.html?page={}&total=6048&box_idxno=&view_type=sm'.format(i)
         resp = requests.get(url)
         soup = BeautifulSoup(resp.content, 'lxml')

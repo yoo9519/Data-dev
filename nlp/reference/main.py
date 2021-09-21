@@ -106,7 +106,7 @@ def dataframe():
     df_date = pd.DataFrame(depth_date_list, columns=['created_date'])
     df_total = pd.concat([df_date, df_article], axis=1)
     df_total = df_total.groupby('created_date').sum(str(df_total['article']))
-    print("DataFrame Structure Finished")
+    print("Make DataFrame Structure")
 
     return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/article/df_total.csv')
 

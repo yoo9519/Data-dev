@@ -382,7 +382,7 @@ def MakeDataFrame(upbit_df, bithumb_df, coinone_df, korbit_df, gopax_df):
     print("All Done!")
     logging.info("-------------sys.argv list-------------", print(sys.argv), sys.argv)
 
-    # return total_df # Original Method
+    # return total_df # Original Method(On docker-compose airflow or local airflow)
     return total_df.to_csv('/Users/yoo/Data-dev/nlp/reference/DataFrame/price.csv') # Temporary save DataFrame
 
 

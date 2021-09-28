@@ -109,7 +109,7 @@ def dataframe():
     df_total = df_total.groupby('created_date').sum(str(df_total['article']))
     print("Make DataFrame Structure")
 
-    return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/article/df_total.csv')
+    return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/DataFrame/article.csv')
 
 
 basic_crawler()

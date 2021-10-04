@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-* author: Cline
-* created: 2021-07-14
-
-"""
 import os
 airflow_home = os.environ['AIRFLOW_HOME']
 

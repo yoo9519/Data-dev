@@ -3,12 +3,27 @@ import pandas as pd
 import numpy as np
 import requests
 import re
-from tqdm import tqdm
 import sys
 print(sys.executable)
 from bs4 import BeautifulSoup
-from datetime import datetime
 import logging
+from requests import Request, Session
+from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
+from airflow.operators.python_operator import BranchPythonOperator
+from airflow.operators.bash_operator import BashOperator
+from bs4 import BeautifulSoup
+import requests
+import json
+from datetime import datetime, timedelta
+from airflow.contrib.hooks.aws_hook import AwsHook
+from airflow.models import Variable
+from airflow.hooks.S3_hook import S3Hook
+import gzip
+import os
+from io import StringIO
+import boto3
+import time
+import shutil
 
 
 ### Use list ###

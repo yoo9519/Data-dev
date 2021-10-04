@@ -124,11 +124,24 @@ def dataframe():
     df_total = df_total.groupby('created_date').sum(str(df_total['article']))
     print("Make DataFrame Structure")
 
-    return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/DataFrame/article.csv')
+    # return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/DataFrame/article.csv')
+    return df_total
 
 
+### Upload S3 bucket ###
+def DataFrameUploader(df_total):
+    s3_bucket = 'russo-mydata'
+    s3_key = 'article_{{ tomorrow_ds_nodash }}.csv'
+    s3_hook = S3Hook(bucket)
+
+    return df_total.to_csv
+
+
+
+### main_compile ###
 basic_crawler()
 depth_crawler()
 processing()
 dataframe()
+DataFrameUploader(dataframe())
 print("Done")

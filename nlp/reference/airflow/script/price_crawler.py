@@ -390,51 +390,40 @@ def MakeDataFrame(upbit_df, bithumb_df, coinone_df, korbit_df, gopax_df):
 ##############################
 ### Upload DataFrame to S3 ###
 ##############################
-# def DataFrameToS3Upload(total_df):
-#     """
-#     Upload DataFrame(df) to S3 bucket
-#     """
-#     try:
-#         result = total_df.to_dict()
-#         results_string = str(total_df.T.to_dict().values()).replace("dict_values([", '').replace('])', '').replace("'",
-#                                                                                                                    '"').replace(
-#             ' ', '').replace('},{', '}{')
-#         logging.info(results_string[:51])
-#         logging.info('******************* Changing JSON FORMAT to Bytes *******************')
-#         results_bytes = results_string.encode('utf-8')
-#         logging.info('******************* gzip the results *******************')
-#         results_gzip = gzip.compress(results_bytes)
-#         results = results_gzip
-#
-#         dag_id = 'airflow_public_api_exchange_market_pairs_to_s3_v0002'
-#
-#         s3_key = 'ods_external/airflow_public_api_exchange_market_pairs_to_s3_v0002/' + str(
-#             (datetime.today() + timedelta(days=-1)).strftime('%Y%m%d')).replace('-', '') + '.json.gzip'
-#         s3_hook = AwsHook(aws_conn_id='{{ params.s3_conn_id }}')
-#         s3_client_type = s3_hook.get_client_type(client_type='s3', region_name='')
-#         s3 = s3_client_type
-#         s3.put_object(
-#             Bucket=s3_bucket,
-#             Body=results,
-#             Key=s3_key
-#         )
-#         print("--------------- Python process end ---------------")
-#
-#     except Exception as e:
-#         print("S3 uploader Error", e)
-#
-#     return results
+def DataFrameToS3Upload(total_df):
+    """
+    Upload DataFrame(df) to S3 bucket
+    """
+    try:
+        result = total_df.to_dict()
+        results_string = str(total_df.T.to_dict().values()).replace("dict_values([", '').replace('])', '').replace("'",
+                                                                                                                   '"').replace(
+            ' ', '').replace('},{', '}{')
+        logging.info(results_string[:51])
+        logging.info('******************* Changing JSON FORMAT to Bytes *******************')
+        results_bytes = results_string.encode('utf-8')
+        logging.info('******************* gzip the results *******************')
+        results_gzip = gzip.compress(results_bytes)
+        results = results_gzip
 
-bucket = 'russo-mydata'
+        dag_id = 'price_crawler_v0001'
 
-s3_hook = S3Hook(bucket)
+        s3_key = '/airflow/dags' + str((datetime.today() + timedelta(days=-1)).strftime('%Y%m%d')).replace('-', '') + '.json.gzip'
+        s3_hook = AwsHook(aws_conn_id='{{ params.s3_conn_id }}')
+        s3_client_type = s3_hook.get_client_type(client_type='s3', region_name='')
+        s3 = s3_client_type
+        s3.put_object(
+            Bucket=s3_bucket,
+            Body=results,
+            Key=s3_key
+        )
+        print("--------------- Python process end ---------------")
 
-#S3 디렉토리 리스팅
-keys = s3_hook.list_keys(bucket_name=bucket)
+    except Exception as e:
+        print("S3 uploader Error", e)
 
-# s3에 업로드
-s3_key = 'airflow/price.csv'
-s3_hook.load_file(filename='/var/lib/airflow/test/test.csv',key=s3_key,bucket_name=bucket)
+    return results
+
 
 ####################
 ### Main Complie ###
@@ -446,4 +435,14 @@ df = pd.DataFrame(MakeDataFrame(
     korbit_df=korbit_crawler(),
     gopax_df=gopax_crawler()))
 
-# DataFrameToS3Upload(df)
+DataFrameToS3Upload(df)
+# s3_bucket = 'russo-mydata'
+# s3_hook = S3Hook(s3_bucket)
+#
+#
+# #S3 디렉토리 리스팅
+# keys = s3_hook.list_keys(bucket_name=bucket)
+#
+# # s3에 업로드
+# s3_key = 'airflow/price.csv'
+# s3_hook.load_file(filename='/var/lib/airflow/test/test.csv',key=s3_key,bucket_name=s3_bucket)

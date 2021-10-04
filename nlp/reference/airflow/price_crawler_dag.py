@@ -25,25 +25,25 @@ import boto3
 importlib.reload(sys)
 
 task_default_args = {
-    'owner': 'cline',  # your id
+    'owner': 'jeonghyun',
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
-    'start_date': datetime(2021, 7, 12),
-    'depends_on_past': False,  # does not depend on past dag runs
-    'email': 'Your email', # notification to admins
+    'start_date': datetime(2021, 10, 1),
+    'depends_on_past': False,
+    'email': '[yoo9519@gmail.com]',
     'email_on_retry': False,
     'email_on_failure': True,
-    'execution_timeout': timedelta(hours=1)  # task execution timeout
+    'execution_timeout': timedelta(hours=1)
 }
 
 
-dag_id = 'Your Dag Name version'  # format: <team_name>_<source>_to_<target>
+dag_id = 'price_crawler_v0001'
 
 
 dag = DAG(
-    dag_id='Your DAG Name'
-    default_args=###,
-    schedule_interval='2 0 * * *',  # get clarification crontab
+    dag_id='price_crawler_v0001',
+    default_args=task_default_args,
+    schedule_interval='2 0 * * *',
     concurrency=6,
     max_active_runs=1
 )
@@ -70,43 +70,43 @@ elif(env == 'Security'):
 else:
     raise Exception('Unknown Environment')
 
-Data_Lake_flag_match_string = "d_{{ execution_date.strftime('%Y%m%d') }}"
-# Data_Lakeflag_match_string = "h_{{ (execution_date + macros.timedelta(hours=1)).strftime('%Y%m%d_%H') }}"
+s3_flag_match_string = "d_{{ execution_date.strftime('%Y%m%d') }}"
+# s3flag_match_string = "h_{{ (execution_date + macros.timedelta(hours=1)).strftime('%Y%m%d_%H') }}"
 
-Data_Lake_key = 'Schema' + dag_id + "/{{ (execution_date + macros.timedelta(days=1)).strftime('%Y%m%d') }}"
+s3_key = dag_id + "/{{ (execution_date + macros.timedelta(days=1)).strftime('%Y%m%d') }}"
 
 # jsonpaths
-Data_Lake_params = 'Schema' + dag_id
-jsonpaths = airflow_home + """../public_api_exchange_market_pairs.txt"""
-jsonpaths_key = '../public_api_exchange_market_pairs.txt'
+s3_params = dag_id
+jsonpaths =  dag_id + """../price_crawler_jsonpath.txt"""
+jsonpaths_key = '../price_crawler_jsonpath.txt'
 
 logging.info('******************* Uploading jsonpaths file *******************')
 
-Data_Lake_hook = AwsHook(aws_conn_id='###')
-Data_Lake_client_type = Data_Lake_hook.get_client_type(client_type='S3', region_name='###')
-Data_Lake = ###
+s3_hook = AwsHook(aws_conn_id='###')
+s3_client_type = s3_hook.get_client_type(client_type='S3', region_name='###')
+s3 = ###
 
 with open(jsonpaths, 'rb') as data:
-    Data_Lake.upload_fileobj(###, jsonpaths_bucket, jsonpaths_key)
+    s3.upload_fileobj(###, jsonpaths_bucket, jsonpaths_key)
 
 ####################################################################################################
 ####################################################################################################
-script = airflow_home + "Your DAG Path"
+script = airflow_home + "/dags/script/price_cralwer.py"
 
 start = DummyOperator(
     task_id='start',
     dag=dag)
 
 bash_task = BashOperator(
-    task_id='Security',
-    params={"Data_Lake_conn_id": ###},
+    task_id='cralwer',
+    params={"s3_conn_id": },
     bash_command='python %s' %(script),
     dag=dag)
 
-complete = Data_LakeFlagOperator(
+complete = s3FlagOperator(
     task_id='complete',
-    Data_Lake_conn_id=###,
-    execution_date=###,
+    s3_conn_id= ,
+    execution_date= ,
     dag=dag)
 
 

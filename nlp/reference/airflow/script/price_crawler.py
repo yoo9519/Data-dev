@@ -41,9 +41,9 @@ pd.options.display.float_format = '{:.5f}'.format
 ############################
 ### S3 bucket Parameters ###
 ############################
-# s3_sensorflag_bucket = ''
-# s3_conn_id = ''
-# s3_bucket = ''
+s3_sensorflag_bucket = 'russo-mydata'
+s3_conn_id = 'russo-mydata'
+s3_bucket = 'russo-mydata'
 # jsonpaths_bucket = ''
 
 
@@ -407,9 +407,9 @@ def DataFrameToS3Upload(total_df):
 
         dag_id = 'price_crawler_v0001'
 
-        s3_key = '/airflow/dags' + str((datetime.today() + timedelta(days=-1)).strftime('%Y%m%d')).replace('-', '') + '.json.gzip'
+        s3_key = '/airflow/dags' + dag_id + str((datetime.today() + timedelta(days=-1)).strftime('%Y%m%d')).replace('-', '') + '.json.gzip'
         s3_hook = AwsHook(aws_conn_id='{{ params.s3_conn_id }}')
-        s3_client_type = s3_hook.get_client_type(client_type='s3', region_name='')
+        s3_client_type = s3_hook.get_client_type(client_type='s3', region_name='ap-northeast-1')
         s3 = s3_client_type
         s3.put_object(
             Bucket=s3_bucket,

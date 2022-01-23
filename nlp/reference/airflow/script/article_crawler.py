@@ -9,21 +9,23 @@ from bs4 import BeautifulSoup
 import logging
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
-from airflow.operators.python_operator import BranchPythonOperator
-from airflow.operators.bash_operator import BashOperator
+# from airflow.operators.python_operator import BranchPythonOperator
+# from airflow.operators.bash_operator import BashOperator
 from bs4 import BeautifulSoup
 import requests
 import json
 from datetime import datetime, timedelta
-from airflow.contrib.hooks.aws_hook import AwsHook
-from airflow.models import Variable
-from airflow.hooks.S3_hook import S3Hook
+# from airflow.contrib.hooks.aws_hook import AwsHook
+# from airflow.models import Variable
+# from airflow.hooks.S3_hook import S3Hook
 import gzip
 import os
 from io import StringIO
 import boto3
 import time
 import shutil
+from tqdm import tqdm
+import time
 
 
 ### Use list ###
@@ -42,10 +44,11 @@ def basic_crawler():
     d = []
     a = []
 
-    for i in tqdm(range(1,21), desc="Extracting Web page.."):
+    for i in tqdm(range(1,300), desc="Extracting Web page.."):
         url = 'https://www.coindeskkorea.com/news/articleList.html?page={}&total=6048&box_idxno=&view_type=sm'.format(i)
         resp = requests.get(url)
         soup = BeautifulSoup(resp.content, 'lxml')
+        time.sleep(0.01)
 
         for j in range(1,21):
             date = soup.select('#user-container div.float-center.custom-m.mobile.template.list.max-width-1250 div.user-content section article div.article-list section div:nth-of-type({}) div.text-block div.list-dated'.format(j))
@@ -124,17 +127,17 @@ def dataframe():
     df_total = df_total.groupby('created_date').sum(str(df_total['article']))
     print("Make DataFrame Structure")
 
-    # return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/DataFrame/article.csv')
-    return df_total
+    return df_total.to_csv('/Users/yoo/Data-dev/nlp/reference/DataFrame/article.csv', encoding='utf-8')
+    # return df_total
 
 
-### Upload S3 bucket ###
-def DataFrameUploader(df_total):
-    s3_bucket = 'russo-mydata'
-    s3_key = 'article_{{ tomorrow_ds_nodash }}.csv'
-    s3_hook = S3Hook(bucket)
-
-    return df_total.to_csv
+# ### Upload S3 bucket ###
+# def DataFrameUploader(df_total):
+#     s3_bucket = 'russo-mydata'
+#     s3_key = 'article_{{ tomorrow_ds_nodash }}.csv'
+#     s3_hook = S3Hook(bucket)
+#
+#     return df_total.to_csv
 
 
 
@@ -143,5 +146,5 @@ basic_crawler()
 depth_crawler()
 processing()
 dataframe()
-DataFrameUploader(dataframe())
+# DataFrameUploader(dataframe())
 print("Done")

@@ -5,7 +5,7 @@ airflow_home = os.environ['AIRFLOW_HOME']
 import sys
 from datetime import datetime, timedelta
 from airflow.models import DAG
-from data.ops.s3_flag_operator import S3FlagOperator
+from data.ops.s3_flag_operator import S3FlagOperator # Make S3FlagOperator
 from airflow.models import Variable
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.bash_operator import BashOperator

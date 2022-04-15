@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-* author: Cline
-* created: 2021-07-14
-
-"""
 import os
 airflow_home = os.environ['AIRFLOW_HOME']
 
@@ -25,7 +20,7 @@ import boto3
 importlib.reload(sys)
 
 task_default_args = {
-    'owner': 'cline',  # your id
+    'owner': 'clyne',  # your id
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
     'start_date': datetime(2021, 7, 12),
@@ -37,38 +32,18 @@ task_default_args = {
 }
 
 
-dag_id = 'Your Dag Name version'  # format: <team_name>_<source>_to_<target>
+dag_id = 'DAG Name Version'  # format: <team_name>_<source>_to_<target>
 
 
 dag = DAG(
-    dag_id='Your DAG Name'
-    default_args=###,
+    dag_id='Your DAG Name',
+    default_args='',
     schedule_interval='2 0 * * *',  # get clarification crontab
     concurrency=6,
     max_active_runs=1
 )
 
 env = Variable.get("environment")
-if(env == 'Security'):
-    ### = 'Security'
-    ### = 'Security'
-    ### = 'Security'
-    ### = 'Security'
-elif(env == 'Security'):
-    ### = 'Security'
-    ### = 'Security'
-    ### = 'Security'
-    ### = 'Security'
-elif(env == 'Security'):
-    ### = 'Security'
-    ### = 'Security'
-    ### = 'Security'
-elif(env == 'Security'):
-    ### = 'Security'
-    ### = 'Security'
-    ### = 'Security'
-else:
-    raise Exception('Unknown Environment')
 
 Data_Lake_flag_match_string = "d_{{ execution_date.strftime('%Y%m%d') }}"
 # Data_Lakeflag_match_string = "h_{{ (execution_date + macros.timedelta(hours=1)).strftime('%Y%m%d_%H') }}"

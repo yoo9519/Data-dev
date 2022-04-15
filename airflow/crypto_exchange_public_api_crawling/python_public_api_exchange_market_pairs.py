@@ -1,21 +1,4 @@
 # -*- coding: utf-8 -*-
-
-"""
-team: Data
-* author: Cline
-* created: 2021-07-14
-
-* updated: 2021-07-20, Cline Yoo
-* Version upgrade 1.1v:
-- Adding GOPAX exchange
-- Change DAG name
-- Modifying Batch Scheduler
-- Crawling in kst time by combining data in hours(Upbit)
-- And so on (Total Optimization)
-- Adding column, "close_price"
-
-"""
-
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 from airflow.operators.python_operator import BranchPythonOperator

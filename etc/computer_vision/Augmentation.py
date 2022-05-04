@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Created: Cline Yoo
+Created: Clyne Yoo
 
 """
 

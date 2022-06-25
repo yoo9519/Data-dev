@@ -60,9 +60,9 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- xgboost}
   volumes:
-    - ./dags:/Users/yoo/Data-dev/etc/airflow/dags
-    - ./logs:/Users/yoo/Data-dev/etc/airflow/logs
-    - ./plugins:/Users/yoo/Data-dev/etc/airflow/plugins
+    - ./dags:/usr/local/airflow/dags
+    - ./logs:/usr/local/airflow/logs
+    - ./plugins:/usr/local/airflow/plugins
 #    - ./dags:/opt/airflow/dags
 #    - ./logs:/opt/airflow/logs
 #    - ./plugins:/opt/airflow/plugins

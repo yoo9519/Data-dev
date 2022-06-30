@@ -1,15 +1,19 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import sys
-print(f"PATH: {sys.path}", f"\npython: {sys.executable}")
+# -*- coding: utf-8 -*-
+### BeakJun ###
 
-    
+## For loop
+# def gugu_class(N):
+#     N > 0 and N <= 10
+#     for _ in range(1,10):
+#         print(N,'*',_,'=',N*_)
 
-def main():
-    pass
+# gugu_class(12)
 
-    
-
-if __name__ == "__main__":
-    main()
+# while loop
+def gugu_class2(N):
+    while N > 0 and N < 10:
+        for i in range(1, 10):
+            print(N,'*',i,'=',N*i)
+        break
+            
+gugu_class2(3)
